@@ -1,0 +1,40 @@
+<!-- - Header with project name -->
+<!-- - Chat message area (scrollable) -->
+<!-- - Input field + send button at the bottom -->
+
+<!-- Informs the browser, what document to expect -->
+<!DOCTYPE html>
+<!-- Language of the elements content, relevant for e.g. search engines -->
+<html lang="en">
+<!-- Lets the browser identify the relevant character encoding to use -->
+<head>
+    <title> Docs App </title>
+    <!-- Relevant for mobile friendlyness -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset= "UTF-8">
+    <link rel="stylesheet" href="./static/style.css">
+</head>
+
+<body>
+
+<header>
+    <h1> Ask your Question </h1>
+</header>
+
+<main>
+    <!-- scrollable chat display -->
+            <div id="chatContainer"></div>
+</main>
+
+<footer>
+    <!-- chat input -->
+            <form id="chat_form">
+                <input type="text" placeholder="Ask your question" id="chat_input" name="chat_input">
+                <input type="submit" value="Send Question" id="btn_send" name="btn_send">
+            </form>
+</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
+    <script src='./static/app.js'></script>
+</body>
+</html>

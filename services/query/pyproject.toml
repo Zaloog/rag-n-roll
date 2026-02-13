@@ -1,0 +1,27 @@
+[project]
+name = "query"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Zaloog", email = "gramslars@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi>=0.128.4",
+    "llama-index-core>=0.14.13",
+    "llama-index-embeddings-ollama>=0.8.6",
+    "llama-index-llms-ollama>=0.9.1",
+    "llama-index-vector-stores-qdrant>=0.9.1",
+    "pydantic-settings>=2.12.0",
+    "qdrant-client>=1.16.2",
+    "sse-starlette>=3.2.0",
+    "uvicorn>=0.40.0",
+]
+
+[project.scripts]
+query = "query:main"
+
+[build-system]
+requires = ["uv_build>=0.9.27,<0.10.0"]
+build-backend = "uv_build"
