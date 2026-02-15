@@ -6,8 +6,7 @@ const file_input = document.getElementById("fileInput")
 const upload_status = document.getElementById("uploadStatus")
 
 submit_button.addEventListener("click", send_message)
-upload_button.addEventListener("click", () => file_input.click())
-file_input.addEventListener("change", upload_files)
+upload_button.addEventListener("click", upload_files)
 
 async function send_message(event) {
     event.preventDefault()
@@ -76,7 +75,8 @@ function stopSpinner() {
 }
 
 async function upload_files(event) {
-    const files = event.target.files
+    const files = file_input.files
+    // const files = event.target.files
     
     if (!files || files.length === 0) {
         return
