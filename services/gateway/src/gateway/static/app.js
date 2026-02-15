@@ -17,6 +17,7 @@ async function send_message(event) {
         const data = {"question": user_input}
 
         try {
+            startSpinner()
             let httpResponse = await fetch("http://localhost:8000/api/query", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
@@ -35,6 +36,8 @@ async function send_message(event) {
             console.error(error)
         } finally {
             submit_button.disabled = false
+            stopSpinner()
+            
         }
     }
 
@@ -53,3 +56,16 @@ function newChatMessage(message, user){
     chat_scrollable.scrollTop = chat_scrollable.scrollHeight
 }
 
+function startSpinner() {
+    const spinner = document.querySelector(".spinner")
+    if (spinner == null) {
+        const spinner = document.createElement('div')
+        spinner.classList.add("spinner")
+        chat_scrollable.appendChild(spinner)
+    }
+}
+
+function stopSpinner() {
+    const spinner = document.querySelector(".spinner")
+    if (spinner) spinner.remove()
+}

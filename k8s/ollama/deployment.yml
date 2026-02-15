@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ollama-deployment
+  namespace: doc-assist
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: doc-assist
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: doc-assist
+    spec:
+      containers:
+      - name: ollama
+        image: ollama/ollama
+        ports:
+        - containerPort: 6333
+        resources:
+          requests:
+            memory: "4Gi"
+        command: ["sh", "-c"]
+        args:
+          - |
+            ollama serve &
+            sleep 5
+            ollama pull llama3.2:3b
+            ollama pull nomic-embed-text
+            wait
+        volumeMounts:
+          - name: ollama-storage
+            mountPath: /root/.ollama
+      volumes:
+        - name: ollama-storage
+          persistentVolumeClaim:
+            claimName: ollama-pvc

@@ -58,3 +58,6 @@ After that its forwarded to the llm
     - <header>: "Introductory content or set of navigational links"
     - <footer>: "footer for document or section, for e.g. authorship information"
     - <nav>: set of navigational links
+
+# K8S
+- `kubectl apply` applies creation/update of a ressource to the current kubernetes state

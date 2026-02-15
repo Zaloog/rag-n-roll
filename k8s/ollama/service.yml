@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ollama
+  namespace: doc-assist
+spec:
+  selector:
+    app.kubernetes.io/name: doc-assist
+  ports:
+    - protocol: TCP
+      port: 11434
+      targetPort: 11434
