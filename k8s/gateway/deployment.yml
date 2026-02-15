@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-deployment
+  namespace: doc-assist
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: doc-assist
+      app.kubernetes.io/component: gateway
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: doc-assist
+        app.kubernetes.io/component: gateway
+    spec:
+      containers:
+      - name: gateway
+        image: gateway:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8000
+        envFrom:
+        - configMapRef:
+            name: doc-assist-config

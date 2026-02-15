@@ -60,3 +60,52 @@ form {
     gap:20px;
 }
 
+/* Upload section styling */
+#uploadSection {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.upload-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.upload-btn:hover {
+    background-color: #45a049;
+}
+
+.upload-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+#uploadStatus {
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 3px;
+}
+
+.status-uploading {
+    color: #ff9800;
+    font-weight: bold;
+}
+
+.status-success {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.status-error {
+    color: #f44336;
+    font-weight: bold;
+}
+

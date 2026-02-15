@@ -1,8 +1,13 @@
 const submit_button = document.getElementById("btn_send")
 const chat_input = document.getElementById("chat_input")
 const chat_scrollable = document.getElementById("chatContainer")
+const upload_button = document.getElementById("uploadBtn")
+const file_input = document.getElementById("fileInput")
+const upload_status = document.getElementById("uploadStatus")
 
 submit_button.addEventListener("click", send_message)
+upload_button.addEventListener("click", () => file_input.click())
+file_input.addEventListener("change", upload_files)
 
 async function send_message(event) {
     event.preventDefault()
@@ -68,4 +73,53 @@ function startSpinner() {
 function stopSpinner() {
     const spinner = document.querySelector(".spinner")
     if (spinner) spinner.remove()
+}
+
+async function upload_files(event) {
+    const files = event.target.files
+    
+    if (!files || files.length === 0) {
+        return
+    }
+    
+    upload_status.textContent = `Uploading ${files.length} file(s)...`
+    upload_status.className = "status-uploading"
+    upload_button.disabled = true
+    
+    const formData = new FormData()
+    for (let i = 0; i < files.length; i++) {
+        formData.append('files', files[i])
+    }
+    
+    try {
+        let httpResponse = await fetch("http://localhost:8000/api/upload", {
+            method: "POST",
+            body: formData
+        })
+        
+        if (!httpResponse.ok) {
+            throw new Error(`Upload failed: ${httpResponse.statusText}`)
+        }
+        
+        let response = await httpResponse.json()
+        
+        upload_status.textContent = `✓ Successfully uploaded and processed ${response.documents_processed} document(s)`
+        upload_status.className = "status-success"
+        
+        // Clear file input
+        file_input.value = ""
+        
+        // Clear status after 5 seconds
+        setTimeout(() => {
+            upload_status.textContent = ""
+            upload_status.className = ""
+        }, 5000)
+        
+    } catch (error) {
+        upload_status.textContent = `✗ Upload failed: ${error.message}`
+        upload_status.className = "status-error"
+        console.error("Upload error:", error)
+    } finally {
+        upload_button.disabled = false
+    }
 }

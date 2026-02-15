@@ -5,9 +5,10 @@
 # - [ ] Use `config.py` for service URLs (INGESTION_URL, QUERY_URL)
 from fastapi.responses import FileResponse
 from pathlib import Path
+from typing import List
 
 from pydantic import BaseModel
-from fastapi import FastAPI
+from fastapi import FastAPI, UploadFile, File
 from fastapi.staticfiles import StaticFiles
 from httpx import AsyncClient
 
@@ -50,4 +51,23 @@ async def post_ingest():
     client = AsyncClient(base_url=settings.ingestion_url, timeout=120)
     async with client:
         response = await client.post("/ingest")
+    return response.json()
+
+@app.post("/api/upload")
+async def post_upload(files: List[UploadFile] = File(...)):
+    """Proxy file uploads to the ingestion service"""
+    client = AsyncClient(base_url=settings.ingestion_url, timeout=300)
+    
+    # Prepare files for multipart upload
+    files_to_upload = []
+    for file in files:
+        # Read file content and prepare for forwarding
+        content = await file.read()
+        files_to_upload.append(
+            ("files", (file.filename, content, file.content_type))
+        )
+    
+    async with client:
+        response = await client.post("/upload", files=files_to_upload)
+    
     return response.json()

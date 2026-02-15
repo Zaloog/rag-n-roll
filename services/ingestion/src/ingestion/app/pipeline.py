@@ -1,6 +1,7 @@
 from pathlib import Path
+from typing import List
 
-from llama_index.core import SimpleDirectoryReader, VectorStoreIndex, StorageContext
+from llama_index.core import SimpleDirectoryReader, VectorStoreIndex, StorageContext, Document
 from llama_index.core.node_parser import SentenceSplitter
 from llama_index.embeddings.ollama import OllamaEmbedding
 from llama_index.vector_stores.qdrant import QdrantVectorStore
@@ -50,6 +51,45 @@ def process_files(data_path: Path):
         show_progress=True,
         num_workers=4,  # Process 4 chunks in parallel
         )
+
+    return index, len(documents)
+
+
+def process_uploaded_files(file_paths: List[Path]):
+    """Process a list of uploaded file paths directly without reading from directory"""
+    # Load documents from specific file paths
+    documents = []
+    reader = SimpleDirectoryReader(input_files=[str(fp) for fp in file_paths])
+    documents = reader.load_data(show_progress=True)
+
+    sentence_splitter = SentenceSplitter(
+        chunk_size=256,
+        chunk_overlap=25
+    )
+
+    ollama_embedding = OllamaEmbedding(
+        model_name="nomic-embed-text",
+        base_url=settings.ollama_url
+    )
+
+    vector_store = QdrantVectorStore(
+        collection_name="docs",
+        client=QDRANT_CLIENT,
+        aclient=QDRANT_ACLIENT,
+        enable_hybrid=False,
+    )
+    storage_context = StorageContext.from_defaults(
+        vector_store=vector_store
+    )
+
+    index = VectorStoreIndex.from_documents(
+        documents=documents,
+        transformations=[sentence_splitter],
+        embed_model=ollama_embedding,
+        storage_context=storage_context,
+        show_progress=True,
+        num_workers=4,
+    )
 
     return index, len(documents)
 

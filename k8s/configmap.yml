@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: config
+  name: doc-assist-config
   namespace: doc-assist
 data:
   QDRANT_URL: "http://qdrant:6333"

@@ -6,6 +6,7 @@ metadata:
 spec:
   selector:
     app.kubernetes.io/name: doc-assist
+    app.kubernetes.io/component: qdrant
   ports:
     - protocol: TCP
       port: 6333
