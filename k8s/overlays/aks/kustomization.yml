@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../base
+
+images:
+  - name: gateway
+    newName: docassistservice.azurecr.io/gateway
+    newTag: v1
+  - name: ingestion
+    newName: docassistservice.azurecr.io/ingestion
+    newTag: v1
+  - name: query
+    newName: docassistservice.azurecr.io/query
+    newTag: v1
+
+patches:
+  - path: resources.yml
+

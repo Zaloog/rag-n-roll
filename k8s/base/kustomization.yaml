@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - namespace.yml
+  - configmap.yml
+  - gateway/deployment.yml
+  - gateway/service.yml
+  - ingestion/deployment.yml
+  - ingestion/service.yml
+  - query/deployment.yml
+  - query/service.yml
+  - qdrant/deployment.yml
+  - qdrant/service.yml
+  - qdrant/pvc.yml
+  - ollama/deployment.yml
+  - ollama/service.yml
+  - ollama/pvc.yml
+  - ingress.yml

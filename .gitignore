@@ -12,3 +12,9 @@ wheels/
 # Data dir and playground
 data/
 playground/
+
+# terraform
+terraform.tfvars
+**/.terraform/
+*.tfstate
+*.tfstate.backup
