@@ -1,4 +1,4 @@
-.PHONY: all up down ingest forward-gateway forward-qdrant logs colima build-images push-images deploy aks-login
+.PHONY: all
 
 # ACR configuration
 ACR_NAME ?= docassistservice
@@ -22,8 +22,19 @@ colima:
 	colima start --cpu 4 --memory 24
 
 # AKS deployment
+aks-credentials:
+	az aks get-credentials --resource-group doc-rg --name doc-aks --overwrite-existing
+
 aks-login:
 	az acr login --name $(ACR_NAME)
+
+aks-start:
+	@echo "Starting AKS cluster..."
+	az aks start --resource-group doc-rg --name doc-aks
+
+aks-stop:
+	@echo "Stopping AKS cluster..."
+	az aks stop --resource-group doc-rg --name doc-aks
 
 build-images:
 	@echo "Building images for linux/amd64..."
